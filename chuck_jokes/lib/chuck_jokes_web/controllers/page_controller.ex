@@ -3,10 +3,24 @@ defmodule ChuckJokesWeb.PageController do
 
   alias ChuckJokes.ChuckNorris
 
-  def index(conn, _params) do
+  def home(conn, _params) do
+    case ChuckNorris.get_categories() do
+      {:ok, categories} when is_list(categories) ->
+        case ChuckNorris.get_random_joke() do
+          {:ok, joke} ->
+            render(conn, :home, layout: false, categories: categories, joke: joke)
 
-    render(conn, "index.html")
+          {:error, _error_message} ->
+            render(conn, :home, layout: false, categories: categories, joke: "No joke available")
+        end
+
+      {:error, _error_message} ->
+        render(conn, :home, layout: false, categories: [], joke: "No joke available")
+    end
   end
+
+
+
 
   def joke(conn, %{"category" => category}) do
     case ChuckNorris.get_random_joke(category) do
