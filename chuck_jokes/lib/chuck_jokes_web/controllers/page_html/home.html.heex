@@ -1,43 +1,58 @@
-<h1>Chuck Norris FACTS!</h1>
+<html lang="en" class="scrollbar-gutter-stable">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <title>Chuck Norris Facts</title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}></script>
+  </head>
 
-<!-- chiste -->
-<div id="joke-container">
-  <h2>Here's a random Chuck Norris joke for you:</h2>
-  <p><%= @joke %></p>
-</div>
+<body class="bg-gray-100 text-gray-900">
+  <div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold text-center mb-6">Chuck Norris FACTS!</h1>
+
+    <!-- chiste -->
+    <div id="joke-container" class="bg-white p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-xl font-semibold mb-2" >Some Chuck Norris FACTS</h2>
+      <p class="text-lg"><%= @joke %></p>
+    </div>
 
 
-<!-- Formulario para seleccionar categoría y obtener chiste -->
-<form id="joke-form">
-  <label for="category">Choose a category:</label>
-  <select name="category" id="category">
-    <%= for category <- @categories do %>
-      <option value={category}><%= category %></option>
-    <% end %>
-  </select>
-  <button type="submit">Get a FACT</button>
-</form>
+    <!-- Formulario para seleccionar categoría y obtener chiste -->
+    <form id="joke-form" class="bg-white p-6 rounded-lg shadow-md">
+      <label for="category" class="block text-lg font-medium mb-2">Choose a category:</label>
+      <select name="category" id="category" class="block w-full p-2 border border-gray-300 rounded mb-4">
+        <%= for category <- @categories do %>
+          <option value={category}><%= category %></option>
+        <% end %>
+      </select>
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Get a FACT</button>
+    </form>
+  </div>
 
 
-<script>
-  document.getElementById('joke-form').addEventListener('submit', function(event) {
-    event.preventDefault(); 
+  <script>
+    document.getElementById('joke-form').addEventListener('submit', function(event) {
+      event.preventDefault(); 
 
-    const category = document.getElementById('category').value;
-    const url = category ? `/joke/${category}` : '/joke';
+      const category = document.getElementById('category').value;
+      const url = category ? `/joke/${category}` : '/joke';
 
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        const jokeContainer = document.getElementById('joke-container');
-        if (data.joke) {
-          jokeContainer.querySelector('p').innerText = data.joke;
-        } else {
-          jokeContainer.querySelector('p').innerText = 'No joke available';
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching joke:', error);
-      });
-  });
-</script>
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const jokeContainer = document.getElementById('joke-container');
+          if (data.joke) {
+            jokeContainer.querySelector('p').innerText = data.joke;
+          } else {
+            jokeContainer.querySelector('p').innerText = 'No joke available';
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching joke:', error);
+        });
+    });
+  </script>
+ </body>
+ </html>
