@@ -23,6 +23,7 @@ defmodule ChuckJokes.ChuckNorris do
     end
   end
 
+  #usamos jason para parsear el JSON
   defp parse_joke(body) do
     case Jason.decode(body) do
       {:ok, %{"value" => joke}} -> joke
@@ -30,6 +31,7 @@ defmodule ChuckJokes.ChuckNorris do
     end
   end
 
+  #Extraemos las categorias
   def get_categories do
     case HTTPoison.get(@api_url_categories) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
