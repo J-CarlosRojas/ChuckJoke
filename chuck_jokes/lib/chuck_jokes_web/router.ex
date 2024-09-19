@@ -17,7 +17,7 @@ defmodule ChuckJokesWeb.Router do
   scope "/", ChuckJokesWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", PageController, :home
     get "/joke", PageController, :joke
     get "/joke/:category", PageController, :joke
     get "/categories", PageController, :categories
